@@ -1,0 +1,616 @@
+/* ==========================================================================
+   Airline Passenger Satisfaction Prediction — Stylesheet
+   Organized into sections: Theme, Layout, Navigation, Home Page,
+   Forms, Buttons, Results Page, Tables & Data Displays, Footer, Modal.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Theme variables and global resets
+   -------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  --cyan: #5ce1e6;
+  --yellow: #ffde59;
+  --brown: #784600;
+  --ink: #111;
+  --paper: #fff;
+  --muted: #555;
+  --line: #ddd;
+  --purple: #c9a7dc;
+
+  /* Keep content clear of a phone's notch and home-indicator bar. */
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin: 0.4rem 0 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   2. Page navigation (top bar and single-page-app view switching)
+   -------------------------------------------------------------------------- */
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem 1.4rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 1.3rem;
+}
+
+.tab {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: var(--ink);
+  padding: 0.2rem;
+}
+
+.tab span {
+  display: block;
+  font-size: 1.5rem;
+}
+
+.tab.on {
+  border-bottom: 3px solid var(--yellow);
+}
+
+/* Each <section class="page"> is one "view" of the single-page app.
+   Only the view with the ".on" class is visible at a time — see the
+   showPage() function in app.js. */
+.page {
+  display: none;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem 1.4rem 3rem;
+}
+
+.page.on {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   3. Home page (hero banner and summary cards)
+   -------------------------------------------------------------------------- */
+
+.hero {
+  text-align: center;
+}
+
+.hero img {
+  max-width: 100%;
+  width: 560px;
+  height: auto;
+}
+
+.tag {
+  font-size: 1.05rem;
+  margin: 0.8rem 0 1.6rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.6rem;
+  max-width: 760px;
+  margin: 2.4rem auto 1rem;
+}
+
+@media (max-width: 600px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  border: 5px solid #000;
+  padding: 1.3rem;
+  min-height: 210px;
+  cursor: pointer;
+  background: #fff;
+  text-align: left;
+}
+
+.card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.card .big {
+  font-size: 2.3rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.card p {
+  margin: 0.5rem 0 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* --------------------------------------------------------------------------
+   4. Shared containers and form controls (Predict page)
+   -------------------------------------------------------------------------- */
+
+.box {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.3rem;
+  margin-bottom: 1.2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem 1.2rem;
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+select,
+input[type="number"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  background: #fff;
+  color: var(--ink);
+}
+
+/* One rating slider row: the range input plus its live numeric readout. */
+.rr {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.rr input {
+  flex: 1;
+  accent-color: var(--brown);
+}
+
+.rv {
+  width: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   5. Buttons
+   -------------------------------------------------------------------------- */
+
+.demo {
+  background: var(--cyan);
+  border: none;
+  border-radius: 20px;
+  padding: 0.55rem 1.6rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.cta {
+  background: var(--yellow);
+  border: none;
+  border-radius: 20px;
+  padding: 0.7rem 2.6rem;
+  font-weight: 800;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.pbtn {
+  width: 100%;
+  background: var(--yellow);
+  border: none;
+  padding: 0.85rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ghost {
+  background: var(--cyan);
+  border: none;
+  border-radius: 16px;
+  padding: 0.4rem 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+/* --------------------------------------------------------------------------
+   6. Results page (prediction outcome, contribution bars, EDA comparisons)
+   -------------------------------------------------------------------------- */
+
+#result-panel {
+  display: none;
+  margin-top: 1rem;
+  border-radius: 10px;
+  padding: 1.3rem;
+  text-align: center;
+}
+
+#result-panel.satisfied {
+  background: #e3f3e6;
+  border: 1px solid #9ccca8;
+}
+
+#result-panel.dissatisfied {
+  background: #faeaea;
+  border: 1px solid #e2b0b0;
+}
+
+#result-panel h3 {
+  margin: 0.1rem 0;
+  font-size: 1.3rem;
+}
+
+.track {
+  height: 8px;
+  background: #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  max-width: 320px;
+  margin: 0.8rem auto;
+}
+
+.fill {
+  height: 100%;
+  background: var(--brown);
+  width: 0;
+  transition: width 0.5s;
+}
+
+/* One feature-contribution row: label, a diverging bar, and its value. */
+.contribution-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 60px;
+  gap: 0.6rem;
+  align-items: center;
+  font-size: 0.84rem;
+  margin: 0.4rem 0;
+}
+
+.contribution-axis {
+  position: relative;
+  height: 16px;
+  background: #f4f4f4;
+}
+
+.contribution-axis::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #999;
+}
+
+.contribution-axis i {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+}
+
+.contribution-positive {
+  background: #1fb5bb;
+}
+
+.contribution-negative {
+  background: var(--brown);
+}
+
+/* Rating comparison row: this passenger's rating vs. the two group averages. */
+.rating-track {
+  position: relative;
+  height: 16px;
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.rating-track b {
+  position: absolute;
+  top: -2px;
+  width: 5px;
+  height: 20px;
+  border-radius: 2px;
+  transform: translateX(-50%);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.78rem;
+  margin: 0.4rem 0 0.6rem;
+}
+
+.legend span::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 2px;
+  background: var(--legend-color);
+}
+
+/* Segment satisfaction-rate bars, grouped by category (Class, Age band, etc). */
+.segment-group {
+  margin-bottom: 1rem;
+}
+
+.segment-group h5 {
+  margin: 0.2rem 0 0.3rem;
+  font-size: 0.85rem;
+}
+
+.segment-bar {
+  display: grid;
+  grid-template-columns: 110px 1fr 90px;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.82rem;
+  margin: 0.25rem 0;
+}
+
+.segment-bar i {
+  display: block;
+  height: 14px;
+  background: #cfcfcf;
+  border-radius: 3px;
+}
+
+/* ".me" marks the bar for this passenger's own segment. */
+.segment-bar.me i {
+  background: #e0a800;
+}
+
+.segment-bar.me span:first-child {
+  font-weight: 800;
+}
+
+/* --------------------------------------------------------------------------
+   7. Tables and data displays (Models and Insights pages)
+   -------------------------------------------------------------------------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th,
+td {
+  padding: 0.55rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+}
+
+th:first-child,
+td:first-child {
+  text-align: left;
+}
+
+tr.best td {
+  font-weight: 800;
+  background: #fff8d6;
+}
+
+.split-bar {
+  display: flex;
+  height: 34px;
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin: 0.6rem 0;
+}
+
+.split-bar div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confusion-matrix {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  gap: 4px;
+  max-width: 360px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.confusion-matrix div {
+  padding: 0.6rem;
+}
+
+.confusion-matrix .correct {
+  background: var(--cyan);
+  font-weight: 800;
+}
+
+.confusion-matrix .wrong {
+  background: #f3d6d6;
+  font-weight: 800;
+}
+
+/* Feature-importance bars on the Insights page. */
+.importance-bar {
+  display: grid;
+  grid-template-columns: 170px 1fr 48px;
+  gap: 0.6rem;
+  align-items: center;
+  font-size: 0.85rem;
+  margin: 0.35rem 0;
+}
+
+.importance-bar i {
+  display: block;
+  height: 14px;
+  background: var(--brown);
+  border-radius: 3px;
+}
+
+/* The top 5 most important features are highlighted in amber. */
+.importance-bar.top i {
+  background: #e0a800;
+}
+
+.reference {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin: 0.7rem 0;
+}
+
+.reference a {
+  color: #0b5a8a;
+}
+
+.note {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   8. Footer
+   -------------------------------------------------------------------------- */
+
+footer {
+  background: var(--brown);
+  color: #fff;
+  padding: 2rem 1.4rem 1.2rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 1.4fr;
+  gap: 1.6rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+@media (max-width: 700px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+footer h4 {
+  margin: 0 0 0.6rem;
+}
+
+footer a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin: 0.3rem 0;
+  cursor: pointer;
+}
+
+footer .newsletter {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0.6rem 0;
+}
+
+footer .newsletter input {
+  border-radius: 16px;
+  border: none;
+  background: var(--cyan);
+  text-align: center;
+}
+
+.terms-link {
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-top: 1.4rem;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   9. Modal dialog (login / sign-up, terms and conditions)
+   -------------------------------------------------------------------------- */
+
+#modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 9;
+}
+
+#modal-overlay.on {
+  display: flex;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 380px;
+  width: 100%;
+}
+
+.modal-box h3 {
+  margin-top: 0;
+}
+
+.modal-box input {
+  margin-bottom: 0.7rem;
+}
